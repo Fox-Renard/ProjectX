@@ -1,15 +1,13 @@
-﻿Public Class Form1
+﻿Public Class Form
+
+    Private forture_telling_list As New List(Of String)
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim m_hello As String = "Hello"
-        ShowMessage(m_hello)
+        forture_telling_list = GetCSV("..\../csv/forture_telling.csv")
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Dim str As String = TextBox1.Text
-
-        ' add method to forture-tekking(占い)
-        ' 大吉、中吉、小吉、凶、大凶　の５つをランダムでMsgBox（）で表示
-        Dim forture_telling_str As String() = {"大吉", "中吉", "小吉", "凶", "大凶"}
 
         ' ランダム処理
         Dim bytesData As Byte()
@@ -22,11 +20,31 @@
         For i As Integer = 0 To bytesData.Count - 1
             sum += bytesData(i)
         Next
-        MsgBox(forture_telling_str(sum Mod 5))
+
+        MsgBox(forture_telling_list(sum Mod forture_telling_list.Count))
 
         ' 文字コード出力
         TextBox2.Text = BitConverter.ToString(bytesData)
     End Sub
 
 
+
+    Private Sub TextBox3_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox3.KeyPress
+
+        If Number_CheckBox.Checked Then
+            ' 数値、BackSpaceのみ入力可能、それ以外は空欄に変更
+            If Not (IsNumeric(e.KeyChar) Or e.KeyChar = vbBack) Then
+                e.KeyChar = ""
+            End If
+        End If
+    End Sub
+
+    Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles Number_CheckBox.CheckedChanged
+        ' テキストボックスの文字を削除
+        TextBox3.Text = ""
+    End Sub
+
+    Private Sub FilePathButton_Click(sender As Object, e As EventArgs) Handles FilePathButton.Click
+        FilePathText.Text = GetFilePath()
+    End Sub
 End Class
