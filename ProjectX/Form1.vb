@@ -21,7 +21,8 @@
             sum += bytesData(i)
         Next
 
-        MsgBox(forture_telling_list(sum Mod forture_telling_list.Count))
+        ShowMessage(forture_telling_list(sum Mod forture_telling_list.Count))
+        'MsgBox(forture_telling_list(sum Mod forture_telling_list.Count))
 
         ' 文字コード出力
         TextBox2.Text = BitConverter.ToString(bytesData)
